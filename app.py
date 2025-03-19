@@ -1,20 +1,20 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Obsługa CORS
 
 app = Flask(__name__)
+CORS(app)  # Pozwala na zapytania z przeglądarki
 
-# Przykładowe licencje w bazie danych (w praktyce to powinno być w DB)
-VALID_LICENSES = {
-    "ABC123DEF456": "9816341",
-    "XYZ789GHI012": "User2"
-}
+VALID_USERS = ["9648139"]  # Lista ID
 
 @app.route("/check_license", methods=["POST"])
 def check_license():
     data = request.json
-    license_key = data.get("license")
+    user_id = data.get("user_id")
 
-    if license_key in VALID_LICENSES:
-        return jsonify({"status": "valid", "user": VALID_LICENSES[license_key]})
+    print(f"📥 Otrzymano user_id: {user_id}")  # Debugowanie w logach Render
+
+    if user_id in VALID_USERS:
+        return jsonify({"status": "valid"})
     else:
         return jsonify({"status": "invalid"}), 403
 
