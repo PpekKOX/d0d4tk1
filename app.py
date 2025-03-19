@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 # Przykładowe licencje w bazie danych (w praktyce to powinno być w DB)
 VALID_LICENSES = {
-    "ABC123DEF456": "User1",
+    "ABC123DEF456": "9816341",
     "XYZ789GHI012": "User2"
 }
 
