@@ -1,17 +1,22 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv  # ← Ładowanie zmiennych z .env
+
+load_dotenv()  # Wczytanie pliku .env
 
 app = Flask(__name__)
 CORS(app)
 
-VALID_USERS = ["9648139", "6736194", "9780355", "9816341"]  # Lista ID jako stringi
+# Pobranie dozwolonych użytkowników z .env
+VALID_USERS = os.getenv("VALID_USERS", "").split(",")
 
 @app.route("/check_license", methods=["POST"])
 def check_license():
     data = request.json
-    user_id = str(data.get("user_id"))  # 🔹 Konwersja na stringa dla pewności
-    
-    print(f"📥 Otrzymano user_id: {user_id}")  # 🔍 Logowanie, co faktycznie dociera do API
+    user_id = str(data.get("user_id"))
+
+    print(f"📥 Otrzymano user_id: {user_id}")
 
     if user_id in VALID_USERS:
         print("✅ Licencja poprawna!")
