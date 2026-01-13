@@ -1,4 +1,8 @@
 from database import db
+from datetime import datetime
+
+
+
 
 class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -9,7 +13,7 @@ class Character(db.Model):
     map = db.Column(db.String(64))
     x = db.Column(db.Integer)
     y = db.Column(db.Integer)
-    last_online = db.Column(db.DateTime)
+    last_online = db.Column(db.DateTime, default=datetime.utcnow)
 
     __table_args__ = (
         db.UniqueConstraint("name", "world", name="uniq_character_world"),
