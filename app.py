@@ -123,10 +123,23 @@ def get_characters():
         for c in chars
     ])
 
+@app.route("/online/<world>", methods=["GET"])
+def get_online_world(world):
+    threshold = datetime.utcnow() - timedelta(minutes=2)
+
+    chars = Character.query.filter(
+        Character.world == world,
+        Character.last_online >= threshold
+    ).all()
+
+    return jsonify([c.name for c in chars])
+
+
 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
