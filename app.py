@@ -2,11 +2,24 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
+from database import db
+from models import Character
+
 
 load_dotenv()
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
+
 CORS(app)
+
+
 
 VALID_USERS = os.getenv("VALID_USERS", "").split(",")
 MD_LICENSE = os.getenv("MD_LICENSE", "").split(",")
@@ -41,4 +54,5 @@ def verify_license():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
