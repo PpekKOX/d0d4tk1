@@ -4,7 +4,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from database import db
 from models import Character
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 load_dotenv()
@@ -85,9 +85,49 @@ def report_state():
 
     return jsonify({"status": "ok"})
 
+@app.route("/online", methods=["GET"])
+def get_online():
+    threshold = datetime.utcnow() - timedelta(minutes=2)
+
+    chars = Character.query.filter(
+        Character.last_online >= threshold
+    ).all()
+
+    return jsonify([
+        {
+            "character": c.name,
+            "world": c.world,
+            "level": c.level,
+            "map": c.map,
+            "x": c.x,
+            "y": c.y,
+            "last_online": c.last_online.isoformat()
+        }
+        for c in chars
+    ])
+
+@app.route("/characters", methods=["GET"])
+def get_characters():
+    chars = Character.query.all()
+
+    return jsonify([
+        {
+            "character": c.name,
+            "world": c.world,
+            "level": c.level,
+            "map": c.map,
+            "x": c.x,
+            "y": c.y,
+            "last_online": c.last_online.isoformat() if c.last_online else None
+        }
+        for c in chars
+    ])
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
