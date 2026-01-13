@@ -58,6 +58,7 @@ from datetime import datetime
 @app.route("/report_state", methods=["POST"])
 def report_state():
     data = request.json or {}
+    print("📦 payload:", data)
 
     license = str(data.get("license"))
     if license not in MD_LICENSE:
@@ -91,6 +92,7 @@ def report_state():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
