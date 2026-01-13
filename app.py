@@ -4,6 +4,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from database import db
 from models import Character
+from datetime import datetime
 
 
 load_dotenv()
@@ -52,7 +53,44 @@ def verify_license():
         print("❌ Licencja niepoprawna!")
         return jsonify({"status": "invalid"}), 403
 
+from datetime import datetime
+
+@app.route("/report_state", methods=["POST"])
+def report_state():
+    data = request.json or {}
+
+    license = str(data.get("license"))
+    if license not in MD_LICENSE:
+        return jsonify({"error": "unauthorized"}), 403
+
+    name = data.get("character")
+    world = data.get("world")
+
+    if not name or not world:
+        return jsonify({"error": "invalid payload"}), 400
+
+    char = Character.query.filter_by(
+        name=name,
+        world=world
+    ).first()
+
+    if not char:
+        char = Character(name=name, world=world)
+
+    char.level = data.get("level")
+    char.map = data.get("map")
+    char.x = data.get("x")
+    char.y = data.get("y")
+    char.last_online = datetime.utcnow()
+
+    db.session.add(char)
+    db.session.commit()
+
+    return jsonify({"status": "ok"})
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
