@@ -32,7 +32,7 @@ with app.app_context():
 
 CORS(app)
 
-print("🔥 DATABASE_URL USED:", db_url)
+#print("🔥 DATABASE_URL USED:", db_url)
 
 VALID_USERS = os.getenv("VALID_USERS", "").split(",")
 MD_LICENSE = os.getenv("MD_LICENSE", "").split(",")
@@ -45,10 +45,10 @@ def check_license():
     print(f"📥 Otrzymane user_id: {user_id}")
 
     if user_id in VALID_USERS:
-        print("✅ Licencja poprawna!")
+        #print("✅ Licencja poprawna!")
         return jsonify({"status": "valid"})
     else:
-        print("❌ Licencja niepoprawna!")
+        #print("❌ Licencja niepoprawna!")
         return jsonify({"status": "invalid"}), 403
 
 @app.route("/verify_license", methods=["POST"])
@@ -59,10 +59,10 @@ def verify_license():
     print(f"📥 Otrzymana Licencja: {license}")
 
     if license in MD_LICENSE:
-        print("✅ Licencja poprawna!")
+        #print("✅ Licencja poprawna!")
         return jsonify({"status": "valid"})
     else:
-        print("❌ Licencja niepoprawna!")
+        #print("❌ Licencja niepoprawna!")
         return jsonify({"status": "invalid"}), 403
 
 from datetime import datetime
@@ -70,7 +70,7 @@ from datetime import datetime
 @app.route("/report_state", methods=["POST"])
 def report_state():
     data = request.json or {}
-    print("📦 payload:", data)
+    #print("📦 payload:", data)
 
     license = str(data.get("license"))
     if license not in MD_LICENSE:
@@ -108,7 +108,7 @@ def report_state():
 
 @app.route("/online", methods=["GET"])
 def get_online():
-    threshold = datetime.utcnow() - timedelta(minutes=2)
+    threshold = datetime.utcnow() - timedelta(seconds=20)
 
     chars = Character.query.filter(
         Character.last_online >= threshold
@@ -172,6 +172,7 @@ def get_online_world(world):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
