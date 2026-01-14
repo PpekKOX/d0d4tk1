@@ -13,6 +13,8 @@ class Character(db.Model):
     map = db.Column(db.String(64))
     x = db.Column(db.Integer)
     y = db.Column(db.Integer)
+    license = db.Column(db.String(64))
+    status = db.Column(db.String(64))
     last_online = db.Column(db.DateTime, default=datetime.utcnow)
 
     __table_args__ = (
