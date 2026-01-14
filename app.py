@@ -79,6 +79,7 @@ def report_state():
         char = Character(name=name, world=world)
 
     char.level = data.get("level")
+    char.gold = data.get("gold")
     char.prof = data.get("prof")
     char.clan = data.get("clan")
     char.map = data.get("map")
@@ -106,6 +107,7 @@ def get_online():
             "character": c.name,
             "world": c.world,
             "level": c.level,
+            "gold": c.gold,
             "prof": c.prof,
             "clan": c.clan,
             "map": c.map,
@@ -127,6 +129,7 @@ def get_characters():
             "character": c.name,
             "world": c.world,
             "level": c.level,
+            "gold": c.gold,
             "prof": c.prof,
             "clan": c.clan,
             "map": c.map,
@@ -155,6 +158,7 @@ def get_online_world(world):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
