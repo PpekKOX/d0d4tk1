@@ -24,7 +24,7 @@ with app.app_context():
 
 CORS(app)
 
-
+print("🔥 DATABASE_URL USED:", db_url)
 
 VALID_USERS = os.getenv("VALID_USERS", "").split(",")
 MD_LICENSE = os.getenv("MD_LICENSE", "").split(",")
@@ -164,6 +164,7 @@ def get_online_world(world):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
