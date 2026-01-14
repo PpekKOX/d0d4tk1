@@ -60,6 +60,10 @@ def report_state():
     data = request.json or {}
     print("📦 payload:", data)
 
+    license = str(data.get("license"))
+    if license not in MD_LICENSE:
+        return jsonify({"error": "unauthorized"}), 403
+
     name = data.get("character")
     world = data.get("world")
 
@@ -78,6 +82,8 @@ def report_state():
     char.map = data.get("map")
     char.x = data.get("x")
     char.y = data.get("y")
+    char.license = data.get("license")
+    char.status = data.get("status")
     char.last_online = datetime.utcnow()
 
     db.session.add(char)
@@ -101,6 +107,8 @@ def get_online():
             "map": c.map,
             "x": c.x,
             "y": c.y,
+            "license": c.license,
+            "status": c.status,
             "last_online": c.last_online.isoformat()
         }
         for c in chars
@@ -139,6 +147,7 @@ def get_online_world(world):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
