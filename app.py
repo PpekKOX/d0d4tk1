@@ -126,6 +126,8 @@ def get_characters():
             "map": c.map,
             "x": c.x,
             "y": c.y,
+            "license": c.license,
+            "status": c.status,
             "last_online": c.last_online.isoformat() if c.last_online else None
         }
         for c in chars
@@ -147,6 +149,7 @@ def get_online_world(world):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
