@@ -157,11 +157,22 @@ def get_online_world(world):
 
     return jsonify([c.name for c in chars])
 
+@app.route("/__admin/drop_character", methods=["POST"])
+def drop_character():
+    try:
+        db.session.execute("DROP TABLE IF EXISTS character")
+        db.session.commit()
+        return {"status": "dropped"}
+    except Exception as e:
+        db.session.rollback()
+        return {"error": str(e)}, 500
+
 
 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
