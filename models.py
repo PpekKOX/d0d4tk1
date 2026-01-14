@@ -10,6 +10,8 @@ class Character(db.Model):
     world = db.Column(db.String(32), nullable=False)
 
     level = db.Column(db.Integer)
+    prof = db.Column(db.String(64))
+    clan = db.Column(db.String(64))
     map = db.Column(db.String(64))
     x = db.Column(db.Integer)
     y = db.Column(db.Integer)
