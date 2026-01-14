@@ -157,17 +157,6 @@ def get_online_world(world):
 
     return jsonify([c.name for c in chars])
 
-from sqlalchemy import text
-
-@app.route("/__admin/drop_character", methods=["GET"])
-def drop_character():
-    try:
-        db.session.execute(text("DROP TABLE IF EXISTS character"))
-        db.session.commit()
-        return {"status": "dropped"}
-    except Exception as e:
-        db.session.rollback()
-        return {"error": str(e)}, 500
 
 
 
@@ -175,6 +164,7 @@ def drop_character():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
