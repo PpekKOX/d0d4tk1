@@ -165,6 +165,18 @@ def get_online_world(world):
 
     return jsonify([c.name for c in chars])
 
+@app.route("/verify_key", methods=["POST"])
+def verify_key():
+    data = request.json
+    key = str(data.get("key"))
+
+    #print(f"📥 Otrzymana Licencja: {license}")
+
+    if key in VALID_USERS:
+        return jsonify({"status": "valid"})
+    else:
+        return jsonify({"status": "invalid"}), 403
+
 
 
 
@@ -172,6 +184,7 @@ def get_online_world(world):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
